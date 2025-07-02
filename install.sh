@@ -26,10 +26,12 @@ mkdir -p "$BIN_DIR"
 ln -sf "$INSTALL_DIR/packages/cli/dist/index.js" "$BIN_DIR/$CMD_NAME-radna0-launcher"
 
 # Create a small wrapper script to run with node
+# Create a small wrapper script to run with node
 cat << 'EOF' > "$BIN_DIR/$CMD_NAME"
 #!/bin/bash
-node "$(dirname "$0")/$CMD_NAME-radna0-launcher" "$@"
+node "$(dirname "$0")/gemini-radna0-launcher" "$@"
 EOF
+
 
 chmod +x "$BIN_DIR/$CMD_NAME"
 
