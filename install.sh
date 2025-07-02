@@ -20,18 +20,20 @@ cd "$INSTALL_DIR"
 npm install
 npm run build
 
-# 3. Create the command (symbolic link)
+# 3. Create the command (symbolic link and wrapper)
 echo "Creating the '$CMD_NAME' command..."
 mkdir -p "$BIN_DIR"
-ln -sf "$INSTALL_DIR/packages/cli/dist/index.js" "$BIN_DIR/$CMD_NAME-radna0-launcher"
 
-# Create a small wrapper script to run with node
-# Create a small wrapper script to run with node
+# The symbolic link to the actual runnable script
+ln -sf "$INSTALL_DIR/packages/cli/dist/index.js" "$BIN_DIR/gemini-radna0-launcher"
+
+# The wrapper script that will be in the user's PATH
+# This is the corrected part
 cat << 'EOF' > "$BIN_DIR/$CMD_NAME"
 #!/bin/bash
+# This script executes the launcher with Node
 node "$(dirname "$0")/gemini-radna0-launcher" "$@"
 EOF
-
 
 chmod +x "$BIN_DIR/$CMD_NAME"
 
@@ -44,3 +46,4 @@ echo "You can add it by running:"
 echo "echo 'export PATH=\"\$HOME/.local/bin:\$PATH\"' >> ~/.bashrc && source ~/.bashrc"
 echo ""
 echo "You can now run your custom version with the command: gemini"
+
