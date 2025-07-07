@@ -264,6 +264,19 @@ const App = ({
       currentModel: string,
       fallbackModel: string,
     ): Promise<boolean> => {
+      // Check if force model is enabled
+      if (config.getForceModel()) {
+        // Add message to UI history explaining that model switching is disabled
+        addItem(
+          {
+            type: MessageType.INFO,
+            text: `⚡ Slow response times detected, but model switching is disabled due to --force-model flag. Continuing with ${currentModel}.`,
+          },
+          Date.now(),
+        );
+        return false; // Reject the fallback
+      }
+      
       // Add message to UI history
       addItem(
         {
@@ -275,7 +288,7 @@ const App = ({
         },
         Date.now(),
       );
-      return true; // Always accept the fallback
+      return true; // Accept the fallback
     };
 
     config.setFlashFallbackHandler(flashFallbackHandler);
